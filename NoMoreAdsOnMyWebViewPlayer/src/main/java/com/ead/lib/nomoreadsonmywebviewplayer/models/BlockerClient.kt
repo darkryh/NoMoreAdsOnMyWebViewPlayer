@@ -55,17 +55,10 @@ open class BlockerClient(
      * call onPassingOverrideUrl
      * to check the next layer of security
      */
-    @Deprecated("use OnPassingOverrideUrl Instead")
+    @Deprecated("use OnPassingOverrideUrl Instead", ReplaceWith("false"))
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-
-
-        /**
-         * check the structure of the url using the regex
-         */
-        return if (!permittedRegex.matches(request?.url.toString()))
-            true
-        else
-            onPassingOverrideUrl(view, request)
+        onPassingOverrideUrl(view, request)
+        return false
     }
 
 
