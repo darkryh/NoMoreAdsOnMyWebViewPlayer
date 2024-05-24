@@ -1,0 +1,9 @@
+tapecontent
+voe
+cloudflare
+videothumbs
+cdn
+video-delivery
+guardstorage
+roseimgs
+vidcache
