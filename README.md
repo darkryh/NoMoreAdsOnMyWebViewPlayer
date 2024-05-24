@@ -5,7 +5,7 @@ It's an Android Library that permit custom properties and remove ads from embed 
 - Add a custom blocker for the user (To-do)
 - Add a metadata capture for every website that blocks (To-do)
 
-## Supported Servers
+## Supported Websites
 
 1. **Uqload**
 2. **Mp4Upload**
