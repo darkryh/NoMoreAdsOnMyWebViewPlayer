@@ -57,8 +57,10 @@ open class BlockerClient(
      */
     @Deprecated("use OnPassingOverrideUrl Instead", ReplaceWith("false"))
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        onPassingOverrideUrl(view, request)
-        return false
+        return if (permittedRegex.matches(request?.url.toString()))
+            false
+        else
+            onPassingOverrideUrl(view, request)
     }
 
 
