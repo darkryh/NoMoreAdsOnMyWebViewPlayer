@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(key1 = true) {
                         viewModel.onEvent(
                             MainEvent.LoadingUrl(
-                                url = "https://doodstream.com/e/mb6eumwzzeiw"
+                                url = "https://streamtape.com/e/xepmKOApgpCkRYb"
                             )
                         )
                     }
