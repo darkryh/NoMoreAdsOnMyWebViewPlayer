@@ -48,7 +48,6 @@ publishing {
 }
 
 dependencies {
-
     implementation(libs.androidx.webkit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
