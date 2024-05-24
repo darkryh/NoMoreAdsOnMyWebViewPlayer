@@ -1,3 +1,4 @@
+[![](https://jitpack.io/v/darkryh/NoMoreAdsOnMyWebViewPlayer.svg)](https://jitpack.io/#darkryh/NoMoreAdsOnMyWebViewPlayer)
 # NoMoreAdsOnMyWebViewPlayer
 
 It's an Android Library that permit custom properties and remove ads from embed websites using WebView:
