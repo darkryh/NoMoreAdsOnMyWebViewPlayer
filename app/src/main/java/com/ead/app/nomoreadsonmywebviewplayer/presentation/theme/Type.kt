@@ -1,4 +1,4 @@
-package com.ead.app.nomoreadsonmywebviewplayer.ui.theme
+package com.ead.app.nomoreadsonmywebviewplayer.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
