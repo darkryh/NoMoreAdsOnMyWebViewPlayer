@@ -64,6 +64,61 @@ open class BaseWebView @JvmOverloads constructor(
          */
         webViewClient = object : BlockerClient(url ?:"about:blank") {
 
+
+            override fun onPassingOverrideUrl(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                /**
+                 * Getting the url
+                 */
+                val url = request?.url.toString()
+
+
+
+                /**
+                 * Initializing is permitted
+                 */
+                val isPermitted: Boolean
+
+
+
+                /**
+                 * Checking if the url is already loaded
+                 */
+                if (!loadedUrls.containsKey(url)) {
+
+
+                    /**
+                     * Checking if the url is permitted
+                     */
+                    isPermitted = Blocker.isPermitted(url)
+
+
+
+                    /**
+                     * Adding the url to the loaded urls
+                     */
+                    loadedUrls.containsValue(isPermitted)
+                } else {
+
+
+                    /**
+                     * Getting the value of the url
+                     * if it is permitted in case its on loaded
+                     */
+                    isPermitted = loadedUrls[url] == true
+                }
+
+
+                /**
+                 * Returning the response in case the url is permitted
+                 * return a normal resource
+                 * if not just an empty resource
+                 */
+                return !isPermitted
+            }
+
             /**
              * Intercept the request for the url
              * that pass the first filter
