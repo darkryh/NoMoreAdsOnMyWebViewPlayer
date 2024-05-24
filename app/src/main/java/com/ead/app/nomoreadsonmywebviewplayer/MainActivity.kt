@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(key1 = true) {
                         viewModel.onEvent(
                             MainEvent.LoadingUrl(
-                                url = "https://uqload.to/embed-b0airhfed337.html"
+                                url = "https://doodstream.com/e/mb6eumwzzeiw"
                             )
                         )
                     }
