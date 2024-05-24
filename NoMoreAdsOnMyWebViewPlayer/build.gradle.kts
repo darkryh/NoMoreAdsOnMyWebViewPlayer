@@ -42,7 +42,7 @@ publishing {
 
             groupId = "com.ead.lib"
             artifactId = "NoMoreAdsOnMyWebViewPlayer"
-            version = "0.0.1"
+            version = "0.0.2"
         }
     }
 }
