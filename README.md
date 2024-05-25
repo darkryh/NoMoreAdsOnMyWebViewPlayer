@@ -49,16 +49,28 @@ class application : Application() {
 }
 ```
 
-# Example of Use Case Kotlin
+# Example of Use Case Kotlin Compose
 ```kotlin
-class MainActivity : ComponentActivity() {
-
-    fun loadingUrl(context : Context) {
-        val webView = NoMoreAdsWebView(context)
-
-        webView.load("your embed Url")
-    }
+@Composable
+fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) {
+    AndroidView(
+        modifier = modifier.fillMaxSize(),
+        factory = { context ->
+            NoMoreAdsWebView(context).apply {
+                loadUrl("your embed url")
+            }
+        }
+    )
 }
+```
+# Create reference in xml
+And loading as a normal webview
+```xml
+    <com.ead.lib.nomoreadsonmywebviewplayer.NoMoreAdsWebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 ```
 
 # Want to colaborate
