@@ -4,13 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.ViewGroup
-import android.webkit.WebResourceRequest
-import android.webkit.WebResourceResponse
+import android.view.ViewGroup.LayoutParams
 import android.webkit.WebSettings
 import android.webkit.WebView
-import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
 import com.ead.lib.nomoreadsonmywebviewplayer.models.BlockerClient
-import java.io.ByteArrayInputStream
 
 /**
  * Base Class to configure the blocker for the web view
@@ -41,10 +38,6 @@ open class BaseWebView @JvmOverloads constructor(
      */
     private var client : BlockerClient
 
-    /**
-     * urls as filter in the loading
-     */
-    private val loadedUrls: Map<String, Boolean> = HashMap()
 
 
     /**
@@ -62,124 +55,7 @@ open class BaseWebView @JvmOverloads constructor(
         /**
          * Adding the blocker client to the web view client
          */
-        webViewClient = object : BlockerClient(url ?:"about:blank") {
-
-
-            override fun onPassingOverrideUrl(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                /**
-                 * Getting the url
-                 */
-                val url = request?.url.toString()
-
-
-
-                /**
-                 * Initializing is permitted
-                 */
-                val isPermitted: Boolean
-
-
-
-                /**
-                 * Checking if the url is already loaded
-                 */
-                if (!loadedUrls.containsKey(url)) {
-
-
-                    /**
-                     * Checking if the url is permitted
-                     */
-                    isPermitted = Blocker.isPermitted(url)
-
-
-
-                    /**
-                     * Adding the url to the loaded urls
-                     */
-                    loadedUrls.containsValue(isPermitted)
-                } else {
-
-
-                    /**
-                     * Getting the value of the url
-                     * if it is permitted in case its on loaded
-                     */
-                    isPermitted = loadedUrls[url] == true
-                }
-
-
-                /**
-                 * Returning the response in case the url is permitted
-                 * return a normal resource
-                 * if not just an empty resource
-                 */
-                return !isPermitted
-            }
-
-            /**
-             * Intercept the request for the url
-             * that pass the first filter
-             * verifying if the url has a key word
-             */
-            override fun onPassingInterceptRequest(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): WebResourceResponse? {
-
-                /**
-                 * Getting the url
-                 */
-                val url = request?.url.toString()
-
-
-
-                /**
-                 * Initializing is permitted
-                 */
-                val isPermitted: Boolean
-
-
-
-                /**
-                 * Checking if the url is already loaded
-                 */
-                if (!loadedUrls.containsKey(url)) {
-
-
-                    /**
-                     * Checking if the url is permitted
-                     */
-                    isPermitted = Blocker.isPermitted(url)
-
-
-
-                    /**
-                     * Adding the url to the loaded urls
-                     */
-                    loadedUrls.containsValue(isPermitted)
-                } else {
-
-
-                    /**
-                     * Getting the value of the url
-                     * if it is permitted in case its on loaded
-                     */
-                    isPermitted = loadedUrls[url] == true
-                }
-
-
-                /**
-                 * Returning the response in case the url is permitted
-                 * return a normal resource
-                 * if not just an empty resource
-                 */
-                return if (isPermitted) super.onPassingInterceptRequest(view, request)
-                else emptyResource
-            }
-        }
+        webViewClient = BlockerClient()
 
 
         /**
@@ -236,26 +112,12 @@ open class BaseWebView @JvmOverloads constructor(
          */
         super.loadUrl(url)
     }
-
-
-
-    /**
-     * Empty resource for the web view to block the request
-     */
-    private val emptyResource : WebResourceResponse =
-        WebResourceResponse(
-            "text/plain",
-            "utf-8",
-            ByteArrayInputStream(
-                "".toByteArray()
-            )
-        )
 }
 
 /**
  * No more ads web view player to block the ads, its works in many embed player sites
  */
-class NoMoreAdsWebView @JvmOverloads constructor(
+open class NoMoreAdsWebView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet?= null,
     defStyle : Int=0,
