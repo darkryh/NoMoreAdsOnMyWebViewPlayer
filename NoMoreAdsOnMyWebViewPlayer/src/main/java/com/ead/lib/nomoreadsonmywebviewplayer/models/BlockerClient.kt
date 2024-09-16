@@ -14,6 +14,7 @@ open class BlockerClient(
 
     private val loadedUrls: Map<String, Boolean> = HashMap()
 
+    @Deprecated("use onByPassOverridingUrl Instead", ReplaceWith("false"))
     override fun onPassingOverrideUrl(
         view: WebView?,
         request: WebResourceRequest?
@@ -73,6 +74,7 @@ open class BlockerClient(
      * that pass the first filter
      * verifying if the url has a key word
      */
+    @Deprecated("use onByPassInterceptRequest Instead", ReplaceWith("false"))
     override fun onPassingInterceptRequest(
         view: WebView?,
         request: WebResourceRequest?
