@@ -3,101 +3,139 @@ package com.ead.lib.nomoreadsonmywebviewplayer.models
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
-import android.webkit.WebViewClient
-import java.net.URL
+import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
 
-/**
- * Blocker client that controls the event
- * to validate the loading of a url
- */
 open class BlockerClient(
     /**
      * @param *url to validate is called when a url is loading
      */
-    var url : String) :  WebViewClient() {
+    url : String ?= null
+) : BaseClient(url ?:"about:blank") {
 
+    private val loadedUrls: Map<String, Boolean> = HashMap()
 
-
-
-    /**
-     * @return domain of the url to intercept and validate the loading
-     */
-    private val domain : String? get() = run {
+    override fun onPassingOverrideUrl(
+        view: WebView?,
+        request: WebResourceRequest?
+    ): Boolean {
+        /**
+         * Getting the url
+         */
+        val url = request?.url.toString()
 
 
 
         /**
-         * check the structure of the url
+         * Initializing is permitted
          */
-        val url = URL(this.url)
+        val isPermitted: Boolean
 
 
 
         /**
-         * and finally return de domain
+         * Checking if the url is already loaded
          */
-        url.host.split('.').firstOrNull { it != "www" } ?: url.host
+        if (!loadedUrls.containsKey(url)) {
+
+
+            /**
+             * Checking if the url is permitted
+             */
+            isPermitted = Blocker.isPermitted(url)
+
+
+
+            /**
+             * Adding the url to the loaded urls
+             */
+            loadedUrls.containsValue(isPermitted)
+        } else {
+
+
+            /**
+             * Getting the value of the url
+             * if it is permitted in case its on loaded
+             */
+            isPermitted = loadedUrls[url] == true
+        }
+
+
+        /**
+         * Returning the response in case the url is permitted
+         * return a normal resource
+         * if not just an empty resource
+         */
+        return onByPassOverridingUrl(view, request) ?: !isPermitted
     }
 
-
-
     /**
-     * @return regex to validate the url
+     * Intercept the request for the url
+     * that pass the first filter
+     * verifying if the url has a key word
      */
-    private val permittedRegex : Regex get() = ".*$domain.*".toRegex()
-
-
-
-    /**
-     * Used to validate the overriding of the url
-     * in basic way just checking by domain
-     * in case its passes the regex
-     * call onPassingOverrideUrl
-     * to check the next layer of security
-     */
-    @Deprecated("use OnPassingOverrideUrl Instead", ReplaceWith("false"))
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        return if (permittedRegex.matches(request?.url.toString()))
-            false
-        else
-            onPassingOverrideUrl(view, request)
-    }
-
-
-
-    /**
-     * Used to validate the intercepting of the url
-     * in basic way just checking by domain
-     * in case its passes the regex
-     * call onPassingInterceptRequest
-     * to check the next layer of security
-     */
-    override fun shouldInterceptRequest(
+    override fun onPassingInterceptRequest(
         view: WebView?,
         request: WebResourceRequest?
     ): WebResourceResponse? {
 
+        /**
+         * Getting the url
+         */
+        val url = request?.url.toString()
+
+
 
         /**
-         * check the structure of the url using the regex
+         * Initializing is permitted
          */
-        return if (permittedRegex.matches(request?.url.toString()))
-            super.shouldInterceptRequest(view, request)
-        else
-            onPassingInterceptRequest(view, request)
+        val isPermitted: Boolean
+
+
+
+        /**
+         * Checking if the url is already loaded
+         */
+        if (!loadedUrls.containsKey(url)) {
+
+
+            /**
+             * Checking if the url is permitted
+             */
+            isPermitted = Blocker.isPermitted(url)
+
+
+
+            /**
+             * Adding the url to the loaded urls
+             */
+            loadedUrls.containsValue(isPermitted)
+        } else {
+
+
+            /**
+             * Getting the value of the url
+             * if it is permitted in case its on loaded
+             */
+            isPermitted = loadedUrls[url] == true
+        }
+
+
+        /**
+         * Returning the response in case the url is permitted
+         * return a normal resource
+         * if not just an empty resource
+         */
+        return if (isPermitted) super.onPassingInterceptRequest(view, request)
+        else onByPassInterceptRequest(view, request) ?: emptyResource
     }
 
-
+    /**
+     * Used to validate, to replace shouldOverrideUrlLoading
+     */
+    protected open fun onByPassOverridingUrl(view: WebView?, request: WebResourceRequest?) : Boolean? = null
 
     /**
-     * Used to validate the overriding of the url on the next layer of security
+     * Used to validate, to replace shouldInterceptRequest
      */
-    open fun onPassingOverrideUrl(view: WebView?, request: WebResourceRequest?) : Boolean = true
-
-
-
-    /**
-     * Used to validate the intercepting of the url on the next layer of security
-     */
-    open fun onPassingInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = null
+    protected open fun onByPassInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = null
 }
