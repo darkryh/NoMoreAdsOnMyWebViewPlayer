@@ -24,6 +24,12 @@ open class BlockerClient(
          */
         val url = request?.url.toString()
 
+        /**
+         * Getting onInterceptingOverridingUrl to have the possibility to
+         * in case the they need to customize
+         */
+        val onBeforeOverridingUrl = onBeforeOverridingUrl(view, request)
+        if (onBeforeOverridingUrl != null) return onBeforeOverridingUrl
 
 
         /**
@@ -66,7 +72,7 @@ open class BlockerClient(
          * return a normal resource
          * if not just an empty resource
          */
-        return onByPassOverridingUrl(view, request) ?: !isPermitted
+        return !isPermitted
     }
 
     /**
@@ -86,6 +92,15 @@ open class BlockerClient(
         val url = request?.url.toString()
 
 
+        /**
+         * Getting onInterceptingInterceptRequest to have the possibility to
+         * in case the they need to customize
+         */
+        val onBeforeInterceptRequest = onBeforeInterceptRequest(view, request)
+
+        if (onBeforeInterceptRequest != null) return onBeforeInterceptRequest
+
+
 
         /**
          * Initializing is permitted
@@ -127,17 +142,18 @@ open class BlockerClient(
          * return a normal resource
          * if not just an empty resource
          */
+
         return if (isPermitted) super.onPassingInterceptRequest(view, request)
-        else onByPassInterceptRequest(view, request) ?: emptyResource
+        else emptyResource
     }
 
     /**
      * Used to validate, to replace shouldOverrideUrlLoading
      */
-    protected open fun onByPassOverridingUrl(view: WebView?, request: WebResourceRequest?) : Boolean? = null
+    protected open fun onBeforeOverridingUrl(view: WebView?, request: WebResourceRequest?) : Boolean? = null
 
     /**
      * Used to validate, to replace shouldInterceptRequest
      */
-    protected open fun onByPassInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = null
+    protected open fun onBeforeInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = null
 }
