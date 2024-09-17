@@ -34,16 +34,12 @@ open class BlockerClient(
         val url = request?.url.toString()
 
 
-        /**
-         * Checking if the url is permitted
-         */
-        val isPermitted = isPermitted(url)
 
         /**
          * Returning the response in case the url is permitted
          * get redirected to acceptable page
          */
-        return if (isPermitted) super.onPassingOverrideUrl(view, request)
+        return if (!isPermitted(url)) super.onPassingOverrideUrl(view, request)
         else onOverrideUrlLoading(view, request)
     }
 
@@ -58,10 +54,12 @@ open class BlockerClient(
         request: WebResourceRequest?
     ): WebResourceResponse? {
 
+
         /**
          * Getting the url
          */
         val url = request?.url.toString()
+
 
 
         /**
@@ -69,7 +67,6 @@ open class BlockerClient(
          * return a normal resource
          * if not just an empty resource
          */
-
         return if (isPermitted(url)) super.onPassingInterceptRequest(view, request)
         else onInterceptRequest(view, request)
     }
