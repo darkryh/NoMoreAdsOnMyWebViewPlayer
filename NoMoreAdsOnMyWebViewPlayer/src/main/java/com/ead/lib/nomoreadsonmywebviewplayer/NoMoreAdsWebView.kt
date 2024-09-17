@@ -55,7 +55,13 @@ open class BaseWebView @JvmOverloads constructor(
         /**
          * Adding the blocker client to the web view client
          */
-        webViewClient = BlockerClient()
+        webViewClient = object : BlockerClient() {
+
+            override val exceptionWordKeys: List<String>
+                get() = listOf(
+                    "your key word"
+                )
+        }
 
 
         /**
