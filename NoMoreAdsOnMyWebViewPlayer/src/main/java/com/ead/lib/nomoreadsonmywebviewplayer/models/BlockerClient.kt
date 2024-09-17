@@ -9,7 +9,16 @@ open class BlockerClient(
     /**
      * @param *url to validate is called when a url is loading
      */
-    url : String ?= null
+    url : String ?= null,
+    /**
+     * @param *exceptionWorkKeys to validate is called when a url is loading
+     */
+    protected open val exceptionWordKeys : List<String> = listOf()
+
+
+    /**
+     * inherited class from base and
+     */
 ) : BaseClient(url ?:"about:blank") {
 
     private val loadedUrls: Map<String, Boolean> = HashMap()
@@ -24,55 +33,18 @@ open class BlockerClient(
          */
         val url = request?.url.toString()
 
-        /**
-         * Getting onInterceptingOverridingUrl to have the possibility to
-         * in case the they need to customize
-         */
-        val onBeforeOverridingUrl = onBeforeOverridingUrl(view, request)
-        if (onBeforeOverridingUrl != null) return onBeforeOverridingUrl
-
 
         /**
-         * Initializing is permitted
+         * Checking if the url is permitted
          */
-        val isPermitted: Boolean
-
-
-
-        /**
-         * Checking if the url is already loaded
-         */
-        if (!loadedUrls.containsKey(url)) {
-
-
-            /**
-             * Checking if the url is permitted
-             */
-            isPermitted = Blocker.isPermitted(url)
-
-
-
-            /**
-             * Adding the url to the loaded urls
-             */
-            loadedUrls.containsValue(isPermitted)
-        } else {
-
-
-            /**
-             * Getting the value of the url
-             * if it is permitted in case its on loaded
-             */
-            isPermitted = loadedUrls[url] == true
-        }
-
+        val isPermitted = isPermitted(url)
 
         /**
          * Returning the response in case the url is permitted
-         * return a normal resource
-         * if not just an empty resource
+         * get redirected to acceptable page
          */
-        return !isPermitted
+        return if (isPermitted) super.onPassingOverrideUrl(view, request)
+        else onOverrideUrlLoading(view, request)
     }
 
     /**
@@ -93,13 +65,27 @@ open class BlockerClient(
 
 
         /**
-         * Getting onInterceptingInterceptRequest to have the possibility to
-         * in case the they need to customize
+         * Returning the response in case the url is permitted
+         * return a normal resource
+         * if not just an empty resource
          */
-        val onBeforeInterceptRequest = onBeforeInterceptRequest(view, request)
 
-        if (onBeforeInterceptRequest != null) return onBeforeInterceptRequest
+        return if (isPermitted(url)) super.onPassingInterceptRequest(view, request)
+        else onInterceptRequest(view, request)
+    }
 
+
+
+    /**
+     * Check if the url is permitted
+     */
+    private fun isPermitted(url: String): Boolean {
+
+        /**
+         * Checking if the url is permitted
+         * by customise wordKeys List
+         */
+        if (exceptionWordKeys.any { url.contains(it, ignoreCase = true) }) return true
 
 
         /**
@@ -136,24 +122,19 @@ open class BlockerClient(
             isPermitted = loadedUrls[url] == true
         }
 
-
-        /**
-         * Returning the response in case the url is permitted
-         * return a normal resource
-         * if not just an empty resource
-         */
-
-        return if (isPermitted) super.onPassingInterceptRequest(view, request)
-        else emptyResource
+        return isPermitted
     }
 
     /**
      * Used to validate, to replace shouldOverrideUrlLoading
+     * his value by default is false
+     * if want to accept redirected override
+     * and return true
      */
-    protected open fun onBeforeOverridingUrl(view: WebView?, request: WebResourceRequest?) : Boolean? = null
+    protected open fun onOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) : Boolean = false
 
     /**
      * Used to validate, to replace shouldInterceptRequest
      */
-    protected open fun onBeforeInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = null
+    protected open fun onInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = emptyResource
 }
