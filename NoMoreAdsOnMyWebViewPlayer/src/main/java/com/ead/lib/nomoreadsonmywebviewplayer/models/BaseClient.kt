@@ -74,7 +74,7 @@ open class BaseClient(
     @Deprecated("use OnPassingOverrideUrl Instead", ReplaceWith("false"))
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         return if (permittedRegex?.matches(request?.url.toString()) == true)
-            false
+            true
         else
             onPassingOverrideUrl(view, request)
     }
