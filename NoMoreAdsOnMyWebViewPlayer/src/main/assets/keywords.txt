@@ -8,3 +8,5 @@ guardstorage
 roseimgs
 vidcache
 d000d
+dood
+.sx
