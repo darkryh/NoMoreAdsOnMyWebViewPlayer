@@ -1,3 +1,6 @@
+uqload
+mp4
+jwplayer
 tapecontent
 voe
 cloudflare
