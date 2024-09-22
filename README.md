@@ -14,7 +14,7 @@ It's an Android Library that permit custom properties and remove ads from embed 
 4. **Filelions**
 5. **Filemoon**
 6. **VidGuard**
-7. **LuluStream**
+7. **LuluStream-Luluvdo**
 8. **Streamtape**
 9. **Okru**
 10. **StreamWish**
@@ -26,6 +26,7 @@ It's an Android Library that permit custom properties and remove ads from embed 
 16. **Mega**
 17. **YourUpload**
 18. **Maru**
+19. **GoodStream**
 
 ## Installation - Gradle
 ```groovy  
@@ -73,5 +74,5 @@ And loading as a normal webview
 
 ```
 
-# Want to colaborate
+# Want to collaborate
 f you want to help or collaborate, feel free to contact me on X account @Darkryh or just make a request.
