@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.09.02"
 okio = "3.9.0"
+robolectric = "4.13"
 webkit = "1.12.0"
 coreKtxVersion = "1.6.1"
 mockk = "1.13.12"
@@ -34,6 +35,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 
 [plugins]
