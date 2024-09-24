@@ -2,6 +2,7 @@ package com.ead.lib.nomoreadsonmywebviewplayer.core
 
 import android.content.Context
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.annotation.WorkerThread
 import okio.BufferedSource
 import okio.buffer
@@ -9,6 +10,7 @@ import okio.source
 import java.io.IOException
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -37,6 +39,11 @@ object Blocker {
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
     /**
+     * The latch to wait for the keywords to load.
+     */
+    private val latch = CountDownLatch(1)
+
+    /**
      * Initialize the keywords from the assets.
      *
      * example:
@@ -57,6 +64,9 @@ object Blocker {
                 loadFromAssets(context)
             } catch (e: IOException) {
                 /*noop*/
+            }
+            finally {
+                latch.countDown()
             }
         }
     }
@@ -216,5 +226,14 @@ object Blocker {
          * that validates the structure
          */
         return URL(url).toString()
+    }
+
+
+    /**
+     * Await until the keywords are loaded.
+     */
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun awaitKeywordsLoaded() {
+        latch.await()
     }
 }
