@@ -9,7 +9,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 21
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,6 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 publishing {
@@ -42,15 +46,19 @@ publishing {
 
             groupId = "com.ead.lib"
             artifactId = "NoMoreAdsOnMyWebViewPlayer"
-            version = "0.0.6"
+            version = "0.0.7"
         }
     }
 }
 
 dependencies {
     implementation(libs.androidx.webkit)
+    testImplementation(libs.core.ktx)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.okio)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
 }
