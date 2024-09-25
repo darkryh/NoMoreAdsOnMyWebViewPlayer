@@ -2,8 +2,8 @@
 # NoMoreAdsOnMyWebViewPlayer
 
 It's an Android Library that permit custom properties and remove ads from embed websites using WebView:
-- Removed ads from the webview
-- Add a custom blocker for the user (To-do)
+- Removed ads from the webview ✔
+- Add a custom blocker for the user ✔
 - Add a metadata capture for every website that blocks (To-do)
 
 ## Supported Websites
