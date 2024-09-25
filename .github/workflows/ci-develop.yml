@@ -37,10 +37,10 @@ jobs:
       - name: Create and start emulator
         run: |
             echo "Creating AVD for API level 30"
-            echo no | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+            echo no | manager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
             $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -no-audio -no-boot-anim &
             adb wait-for-device
-            adb shell input keyevent 82
+            adb shell input key event 82
 
       - name: Run Instrumented Tests
         run: ./gradlew connectedAndroidTest
