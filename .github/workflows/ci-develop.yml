@@ -30,3 +30,21 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew test
+
+      - name: Install SDK dependencies
+        run: sdkmanager --install "platform-tools" "emulator" "extras;google;google_play_services" "extras;android;m2repository" "extras;google;m2repository"
+
+      - name: Create and start emulator
+        run: |
+            echo "Creating AVD for API level 30"
+            echo no | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+            $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -no-audio -no-boot-anim &
+            adb wait-for-device
+            adb shell input keyevent 82
+
+      - name: Run Instrumented Tests
+        run: ./gradlew connectedAndroidTest
+
+      - name: Stop Emulator
+        if: always()
+        run: adb emu kill
