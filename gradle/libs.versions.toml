@@ -13,6 +13,7 @@ robolectric = "4.13"
 webkit = "1.12.0"
 coreKtxVersion = "1.6.1"
 mockk = "1.13.12"
+espressoWeb = "3.6.1"
 
 
 [libraries]
@@ -36,6 +37,7 @@ core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxV
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-espresso-web = { group = "androidx.test.espresso", name = "espresso-web", version.ref = "espressoWeb" }
 
 
 [plugins]
