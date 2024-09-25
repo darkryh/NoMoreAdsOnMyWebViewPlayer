@@ -1,5 +1,6 @@
 package com.ead.app.nomoreadsonmywebviewplayer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,11 +12,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import com.ead.app.nomoreadsonmywebviewplayer.presentation.main.MainEvent
 import com.ead.app.nomoreadsonmywebviewplayer.presentation.main.MainViewModel
 import com.ead.app.nomoreadsonmywebviewplayer.presentation.theme.NoMoreAdsOnMyWebViewPlayerTheme
+import com.ead.app.nomoreadsonmywebviewplayer.util.TestTags
 import com.ead.lib.nomoreadsonmywebviewplayer.NoMoreAdsWebView
 import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
 
@@ -37,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(key1 = true) {
                         viewModel.onEvent(
                             MainEvent.LoadingUrl(
-                                url = "https://uqload.ws/embed-lpf9yop57kfr.html"
+                                url = "https://adblock-tester.com/"
                             )
                         )
                     }
@@ -47,12 +50,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("ResourceType")
 @Composable
 fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) {
     AndroidView(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .testTag(TestTags.WEB_VIEW_CONTAINER),
         factory = { context ->
             NoMoreAdsWebView(context).apply {
+                id = R.id.test_id_no_more_ads_web_view
                 event(MainEvent.InitializeWebView(this))
             }
         }
