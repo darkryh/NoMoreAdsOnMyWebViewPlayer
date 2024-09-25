@@ -18,8 +18,8 @@ jobs:
       - name: Setup Jdk
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
-          distribution: 'temurin'
+          java-version: '17'
+          distribution: 'oracle'
           cache: gradle
 
       - name: Setup Gradle
