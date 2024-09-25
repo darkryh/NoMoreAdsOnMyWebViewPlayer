@@ -43,8 +43,8 @@ class WebViewImplementationTest {
         idlingResource.waitForClassExists(latch)
 
         runBlocking {
-            if (!latch.await(10, TimeUnit.SECONDS)) { // Cambia el tiempo de espera si es necesario
-                throw TimeoutException("Timeout esperando que aparezca la clase final-score-value.")
+            if (!latch.await(10, TimeUnit.SECONDS)) {
+                throw TimeoutException("Timeout waiting for WebView to check final score class")
             }
         }
 
