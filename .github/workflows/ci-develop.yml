@@ -31,12 +31,11 @@ jobs:
       - name: Run Tests
         run: ./gradlew test
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 30
-          target: google_apis
-          channel: 3
+      - name: Install Android SDK and Emulator
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y android-sdk
+          sdkmanager --install "system-images;android-30;google_apis;x86_64" "platform-tools" "platforms;android-30" "emulator"
 
       - name: Create and start emulator
         run: |
