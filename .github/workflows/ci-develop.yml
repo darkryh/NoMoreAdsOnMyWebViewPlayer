@@ -39,12 +39,12 @@ jobs:
           mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
           yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --licenses
           yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --update
-          $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --install "system-images;android-30;google_apis;x86_64" "platform-tools" "platforms;android-30" "emulator"
+          $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --install "system-images;android-34;google_apis;x86_64" "platform-tools" "platforms;android-34" "emulator"
 
       - name: Create and start emulator
         run: |
-          echo "Creating AVD for API level 30"
-          $ANDROID_HOME/cmdline-tools/tools/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force --abi google_apis/x86_64
+          echo "Creating AVD for API level 34"
+          $ANDROID_HOME/cmdline-tools/tools/bin/avdmanager create avd -n test -k "system-images;android-34;google_apis;x86_64" --force
           $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -no-audio -no-boot-anim &
           adb wait-for-device
           adb shell input keyevent 82
