@@ -41,6 +41,9 @@ jobs:
           yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --update
           $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --install "build-tools;35.0.0" "system-images;android-34;google_apis;x86_64" "platform-tools" "platforms;android-34" "emulator"
 
+      - name: Set up environment variables
+        run: echo "/usr/local/lib/android/sdk/platform-tools" >> $GITHUB_ENV
+
       - name: Create AVD
         run: |
           echo "Creating AVD for API level 34"
