@@ -44,7 +44,9 @@ jobs:
       - name: Set up environment variables
         run: |
           echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> $GITHUB_ENV
-          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+          echo "PATH=/usr/local/lib/android/sdk/platform-tools:${{ secrets.PATH }}" >> $GITHUB_ENV
+          echo "export ANDROID_HOME" >> $GITHUB_ENV
+          echo "export PATH" >> $GITHUB_ENV
 
       - name: Create AVD
         run: |
