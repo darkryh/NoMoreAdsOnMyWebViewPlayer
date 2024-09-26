@@ -44,7 +44,7 @@ jobs:
       - name: Create and start emulator
         run: |
           echo "Creating AVD for API level 34"
-          $ANDROID_HOME/cmdline-tools/tools/bin/avdmanager create avd -n test -k "system-images;android-34;google_apis;x86_64" --force
+          echo "no" | $ANDROID_HOME/cmdline-tools/tools/bin/avdmanager create avd -n test -k "system-images;android-34;google_apis;x86_64" --force --tag google_apis --abi google_apis/x86_64
           $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -no-audio -no-boot-anim &
           adb wait-for-device
           adb shell input keyevent 82
