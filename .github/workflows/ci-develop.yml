@@ -29,6 +29,7 @@ jobs:
       - name: Build app
         run: ./gradlew assembleDebug assembleAndroidTest
 
+
       - name: Run tests
         uses: emulator-wtf/run-tests@v0
         with:
