@@ -37,9 +37,9 @@ jobs:
           unzip -q android-sdk.zip -d $HOME/android-sdk
           rm android-sdk.zip
 
-          # Move cmdline-tools to the correct directory
+          # Move contents of cmdline-tools to the latest directory
           mkdir -p $HOME/android-sdk/cmdline-tools/latest
-          mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+          mv $HOME/android-sdk/cmdline-tools/*/* $HOME/android-sdk/cmdline-tools/latest/ || true  # Use || true to ignore errors if the directory is empty
 
           # Set up environment variables
           echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
@@ -52,8 +52,8 @@ jobs:
 
           # Install SDK components
           $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME --update
-          echo "y" | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-33" "build-tools;33.0.2"      
-      
+          echo "y" | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-33" "build-tools;33.0.2"
+
 
       - name: Build App
         run: ./gradlew assemble
