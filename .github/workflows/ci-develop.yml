@@ -16,6 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Jdk
+        uses: actions/setup-java@v4
+        with:
+          java-version: '18'
+          distribution: 'oracle'
+          cache: gradle
+
       - name: Build app
         run: ./gradlew assembleDebug assembleAndroidTest
 
