@@ -14,14 +14,14 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [ 27, 29]
+        api-level: [27, 29]
         target: [default, google_apis]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Jdk
+      - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           java-version: '18'
@@ -39,6 +39,12 @@ jobs:
             ~/.android/avd/*
             ~/.android/adb*
           key: avd-${{ matrix.api-level }}
+
+      - name: Fix permissions for Android folder
+        run: sudo chown -R $USER:$USER ~/.android
+
+      - name: Create AVD directory
+        run: mkdir -p /home/runner/.android/avd/test.avd
 
       - name: Enable Kernel-based Virtual Machine (KVM)
         run: |
