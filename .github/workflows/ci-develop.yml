@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         api-level: [ 21, 23, 29, 31, 33, 35 ]
-        target: [default]
 
     steps:
       - name: Checkout code
@@ -56,5 +55,4 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
           script: ./gradlew connectedCheck
