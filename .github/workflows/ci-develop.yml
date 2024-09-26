@@ -31,16 +31,19 @@ jobs:
       - name: Run Tests
         run: ./gradlew test
 
-      - name: Install Android SDK and Emulator
+      - name: Install Android SDK
         run: |
-          sudo apt-get update
-          sudo apt-get install -y android-sdk
-          sdkmanager --install "system-images;android-30;google_apis;x86_64" "platform-tools" "platforms;android-30" "emulator"
+          mkdir -p "$ANDROID_HOME/cmdline-tools"
+          wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+          unzip commandlinetools-linux-8512546_latest.zip -d "$ANDROID_HOME/cmdline-tools"
+          mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
+          yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --licenses
+          $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --install "system-images;android-30;google_apis;x86_64" "platform-tools" "platforms;android-30" "emulator"
 
       - name: Create and start emulator
         run: |
           echo "Creating AVD for API level 30"
-          avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+          $ANDROID_HOME/cmdline-tools/tools/bin/avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
           $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -no-audio -no-boot-anim &
           adb wait-for-device
           adb shell input keyevent 82
