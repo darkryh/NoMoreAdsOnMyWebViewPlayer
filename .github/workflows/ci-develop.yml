@@ -23,56 +23,18 @@ jobs:
           distribution: 'oracle'
           cache: gradle
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Install Android SDK
-        run: |
-          sudo apt-get update --yes
-          sudo apt-get install -y wget unzip
-
-          # Download and install command line tools
-          wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-          mkdir -p $HOME/android-sdk
-          unzip -q android-sdk.zip -d $HOME/android-sdk
-          rm android-sdk.zip
-
-          # Move contents of cmdline-tools to the latest directory
-          mkdir -p $HOME/android-sdk/cmdline-tools/latest
-          mv $HOME/android-sdk/cmdline-tools/*/* $HOME/android-sdk/cmdline-tools/latest/ || true  # Use || true to ignore errors if the directory is empty
-
-          # Set up environment variables
-          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-          echo "PATH=\$PATH:\$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_ENV
-          echo "PATH=\$PATH:\$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
-          echo "PATH=\$PATH:\$ANDROID_HOME/emulator" >> $GITHUB_ENV
-
-          # Make sure sdkmanager is executable
-          chmod +x $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager
-
-          # Install SDK components
-          $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME --update
-          echo "y" | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-33" "build-tools;33.0.2"
-
+      - name: Setup Emulator
+        uses: emulator.wtf/emulator@v1
+        with:
+          api-level: 33
+          package: 'google_apis'
+          emulator-options: '-no-window -no-audio'
 
       - name: Build App
         run: ./gradlew assemble
 
       - name: Run Unit Tests
         run: ./gradlew test
-
-      - name: Install Emulator Dependencies
-        run: |
-          sudo apt-get install -y libx11-dev libpulse0 libgl1 libnss3 libxcomposite-dev libxcursor1 libasound2
-          sdkmanager --sdk_root=$ANDROID_HOME "platform-tools" "emulator" "system-images;android-24;default;armeabi-v7a"
-
-      - name: Create and Start Emulator
-        run: |
-          echo no | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-          adb start-server
-          emulator -avd test -no-boot-anim -no-window -no-audio -no-snapshot &
-          ./android-wait-for-emulator
-          adb shell input keyevent 82
 
       - name: Run Instrumented Tests
         run: ./gradlew connectedDebugAndroidTest
