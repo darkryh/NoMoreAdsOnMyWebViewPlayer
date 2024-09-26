@@ -38,6 +38,7 @@ jobs:
           unzip commandlinetools-linux-8512546_latest.zip -d "$ANDROID_HOME/cmdline-tools"
           mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
           yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --licenses
+          yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --update
           $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --install "system-images;android-30;google_apis;x86_64" "platform-tools" "platforms;android-30" "emulator"
 
       - name: Create and start emulator
