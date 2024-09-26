@@ -17,7 +17,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -38,15 +37,15 @@ class WebViewImplementationTest {
         val webView = composeTestRule.activity.findViewById<NoMoreAdsWebView>(R.id.test_id_no_more_ads_web_view)
         val idlingResource = WebViewIdlingResource(webView, "final-score-value")
 
-        val latch = CountDownLatch(1)
-
-        idlingResource.waitForClassExists(latch)
+        idlingResource.verifier.start()
 
         runBlocking {
-            if (!latch.await(10, TimeUnit.SECONDS)) {
+            if (!idlingResource.latch.await(10, TimeUnit.SECONDS)) {
                 throw TimeoutException("Timeout waiting for WebView to check final score class")
             }
         }
+
+        idlingResource.verifier.cancel()
 
         val score = onWebView(withId(R.id.test_id_no_more_ads_web_view))
             .check(webContent(hasElementWithXpath("//h1/span[contains(text(), 'AdBlock Tester')]")))

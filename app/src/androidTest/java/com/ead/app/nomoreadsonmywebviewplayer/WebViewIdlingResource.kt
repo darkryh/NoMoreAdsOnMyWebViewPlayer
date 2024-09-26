@@ -1,60 +1,46 @@
 package com.ead.app.nomoreadsonmywebviewplayer
 
 import android.webkit.WebView
-import androidx.test.espresso.IdlingResource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.CountDownLatch
 
 class WebViewIdlingResource(
     private val webView: WebView,
     private val className: String,
-    private val maxWaitTime: Long = 10L,
-    private val interval: Long = 500L
-) : IdlingResource {
+    private val interval: Long = 500L,
+    val latch: CountDownLatch = CountDownLatch(1)
+)  {
 
-    @Volatile
-    private var callback: IdlingResource.ResourceCallback? = null
-    private var isIdle = false
+    private var result = false
 
-    override fun getName(): String = this.javaClass.name
+    val verifier = CoroutineScope(Dispatchers.IO).launch {
+        while (true) {
 
-    override fun isIdleNow(): Boolean {
-        return isIdle
-    }
+            TestingThread.onUi { checkIfClassExists() }
 
-    override fun registerIdleTransitionCallback(callback: IdlingResource.ResourceCallback?) {
-        this.callback = callback
-    }
 
-    fun waitForClassExists(latch: CountDownLatch) {
-        val startTime = System.currentTimeMillis()
-
-        while (System.currentTimeMillis() - startTime < maxWaitTime * 1000) {
-            TestingThread.onUi {
-                checkIfClassExists(latch)
+            if (result) {
+                if (latch.count > 0) {
+                    latch.countDown()
+                }
+                break
             }
 
-            if (latch.count == 0L) {
-                return
-            }
-
-            Thread.sleep(interval)
-        }
-
-        if (!isIdle) {
-            isIdle = true
-            callback?.onTransitionToIdle()
+            delay(interval)
         }
     }
 
-    private fun checkIfClassExists(latch: CountDownLatch) {
+
+    private fun checkIfClassExists() {
         webView.evaluateJavascript(
             "document.getElementsByClassName('$className').length > 0"
-        ) { result ->
-            isIdle = result?.toBoolean() == true
-
-            if (isIdle) {
-                callback?.onTransitionToIdle()
-                latch.countDown()
+        ) { resultString ->
+            this@WebViewIdlingResource.result = resultString?.toBoolean() == true
+            if (this@WebViewIdlingResource.result) {
+                if (latch.count > 0) latch.countDown()
             }
         }
     }
