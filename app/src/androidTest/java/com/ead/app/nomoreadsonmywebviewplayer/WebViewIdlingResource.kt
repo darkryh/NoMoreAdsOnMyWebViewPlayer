@@ -1,40 +1,46 @@
 package com.ead.app.nomoreadsonmywebviewplayer
 
 import android.webkit.WebView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.CountDownLatch
 
 class WebViewIdlingResource(
     private val webView: WebView,
     private val className: String,
-    private val maxWaitTime: Long = 10L,
-    private val interval: Long = 500L
+    private val interval: Long = 500L,
+    val latch: CountDownLatch = CountDownLatch(1)
 )  {
 
+    private var result = false
 
-    fun waitForClassExists(latch: CountDownLatch) {
-        val startTime = System.currentTimeMillis()
+    val verifier = CoroutineScope(Dispatchers.IO).launch {
+        while (true) {
 
-        while (System.currentTimeMillis() - startTime < maxWaitTime * 1000) {
-            TestingThread.onUi {
-                checkIfClassExists(latch)
+            TestingThread.onUi { checkIfClassExists() }
+
+
+            if (result) {
+                if (latch.count > 0) {
+                    latch.countDown()
+                }
+                break
             }
 
-            if (latch.count == 0L) {
-                return
-            }
-
-            Thread.sleep(interval)
+            delay(interval)
         }
-
-
     }
 
-    private fun checkIfClassExists(latch: CountDownLatch) {
+
+    private fun checkIfClassExists() {
         webView.evaluateJavascript(
             "document.getElementsByClassName('$className').length > 0"
-        ) { result ->
-            if (result?.toBoolean() == true) {
-                latch.countDown()
+        ) { resultString ->
+            this@WebViewIdlingResource.result = resultString?.toBoolean() == true
+            if (this@WebViewIdlingResource.result) {
+                if (latch.count > 0) latch.countDown()
             }
         }
     }
