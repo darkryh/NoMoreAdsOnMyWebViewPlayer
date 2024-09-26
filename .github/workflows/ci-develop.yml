@@ -48,7 +48,8 @@ jobs:
 
       - name: Start Emulator
         run: |
-          $ANDROID_HOME/emulator/emulator -avd test -no-snapshot-save -no-window -no-audio -no-boot-anim -accel off &
+          echo "Starting emulator"
+          $ANDROID_HOME/emulator/emulator -avd test -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -accel off -verbose > emulator.log 2>&1 &
           adb wait-for-device
           adb shell input keyevent 82
 
