@@ -37,16 +37,22 @@ jobs:
           unzip -q android-sdk.zip -d $HOME/android-sdk
           rm android-sdk.zip
 
+          # Move cmdline-tools to the correct directory
+          mkdir -p $HOME/android-sdk/cmdline-tools/latest
+          mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+
           # Set up environment variables
           echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-          echo "PATH=\$PATH:\$ANDROID_HOME/cmdline-tools/bin" >> $GITHUB_ENV
+          echo "PATH=\$PATH:\$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_ENV
           echo "PATH=\$PATH:\$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
           echo "PATH=\$PATH:\$ANDROID_HOME/emulator" >> $GITHUB_ENV
 
+          # Make sure sdkmanager is executable
+          chmod +x $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager
+
           # Install SDK components
-          sdkmanager --sdk_root=$ANDROID_HOME --update
-          sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-33" "build-tools;33.0.2"
-      
+          $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME --update
+          echo "y" | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-33" "build-tools;33.0.2"      
       
 
       - name: Build App
