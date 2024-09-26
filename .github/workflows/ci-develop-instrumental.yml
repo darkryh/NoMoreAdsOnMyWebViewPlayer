@@ -1,4 +1,4 @@
-name: CI develop Instrumental Tests
+name: Develop Workflow / Android Api
 
 on:
   push:
