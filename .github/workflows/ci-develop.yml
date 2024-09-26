@@ -23,19 +23,11 @@ jobs:
           distribution: 'oracle'
           cache: gradle
 
-      - name: Build app
-        run: ./gradlew assembleDebug assembleAndroidTest
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
-      - name: Run tests
-        uses: emulator-wtf/run-tests@v0
-        with:
-          api-token: ${{ secrets.EW_API_TOKEN }}
-          app: app/build/outputs/apk/debug/app-debug.apk
-          test: app/build/outputs/apk/androidTest/app-debug-androidTest.apk
-          outputs-dir: build/test-results
+      - name: Build App
+        run: ./gradlew assemble
 
-      - name: Publish test report
-        uses: mikepenz/action-junit-report@v2
-        if: always() # always run even if the tests fail
-        with:
-          report_paths: 'build/test-results/**/*.xml'
+      - name: Run Tests
+        run: ./gradlew test
