@@ -58,6 +58,11 @@ jobs:
       - name: Build App
         run: ./gradlew assemble
 
+      - name: Wait for emulator to boot
+        run: |
+          adb wait-for-device
+          adb shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;'
+
       - name: Run Tests
         run: ./gradlew test
 
