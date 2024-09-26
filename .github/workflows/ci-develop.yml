@@ -40,11 +40,14 @@ jobs:
             ~/.android/adb*
           key: avd-${{ matrix.api-level }}
 
+      - name: Create Android folder
+        run: mkdir -p ~/.android
+
       - name: Fix permissions for Android folder
         run: sudo chown -R $USER:$USER ~/.android
 
       - name: Create AVD directory
-        run: mkdir -p /home/runner/.android/avd/test.avd
+        run: mkdir -p ~/.android/avd/test.avd
 
       - name: Enable Kernel-based Virtual Machine (KVM)
         run: |
