@@ -30,26 +30,29 @@ jobs:
         run: |
           sudo apt-get update --yes
           sudo apt-get install -y wget unzip
-          
+
           # Download and install command line tools
           wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
           mkdir -p $HOME/android-sdk
           unzip -q android-sdk.zip -d $HOME/android-sdk
           rm android-sdk.zip
-          
+
           # Set up environment variables
           echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
           echo "PATH=\$PATH:\$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_ENV
           echo "PATH=\$PATH:\$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
           echo "PATH=\$PATH:\$ANDROID_HOME/emulator" >> $GITHUB_ENV
-          
-          # Move cmdline-tools to latest
-          mkdir $HOME/android-sdk/cmdline-tools/latest
-          mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest
+
+          # Move cmdline-tools to latest, if it exists
+          if [ -d "$HOME/android-sdk/cmdline-tools" ]; then
+              mkdir -p $HOME/android-sdk/cmdline-tools/latest
+              mv $HOME/android-sdk/cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+          fi
 
           # Install SDK components
           sdkmanager --sdk_root=$ANDROID_HOME --update
           sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-33" "build-tools;33.0.2"
+      
 
       - name: Build App
         run: ./gradlew assemble
