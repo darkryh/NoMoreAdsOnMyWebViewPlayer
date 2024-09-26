@@ -1,4 +1,4 @@
-name: Develop Workflow Build and Unit Tests
+name: Develop Workflow / Build and Unit Tests
 
 on:
   push:
