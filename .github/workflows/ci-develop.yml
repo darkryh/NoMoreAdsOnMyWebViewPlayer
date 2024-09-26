@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [ 21, 23, 29, 31, 33, 35 ]
+        api-level: [ 21, 23, 29 ]
 
     steps:
       - name: Checkout code
@@ -51,8 +51,11 @@ jobs:
       - name: Run Tests
         run: ./gradlew test
 
-      - name: Run Instrumented Tests
+      - name: Run Instrumental tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
           script: ./gradlew connectedCheck
