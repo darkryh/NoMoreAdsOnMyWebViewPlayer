@@ -47,10 +47,14 @@ jobs:
           VERSION=$(grep 'version =' build.gradle.kts | awk -F'"' '{print $2}')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Create tag and release
+      - name: Debug Version
+        run: |
+          echo "Version: ${{ env.VERSION }}"
+
+      - name: Create tag and push
         run: |
           git fetch --all
-          git checkout master 
+          git checkout master
           git tag ${{ env.VERSION }}
           git push origin ${{ env.VERSION }}
 
