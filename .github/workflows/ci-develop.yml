@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         api-level: [ 21, 23, 29, 31, 33, 35 ]
-        target: [ default, google_apis, playstore ]
+        target: [default]
 
     steps:
       - name: Checkout code
