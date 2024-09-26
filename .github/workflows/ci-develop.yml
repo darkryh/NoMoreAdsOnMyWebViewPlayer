@@ -39,7 +39,7 @@ jobs:
           mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/tools
           yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --licenses
           yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --update
-          $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --install "system-images;android-34;google_apis;x86_64" "platform-tools" "platforms;android-34" "emulator"
+          $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --install "build-tools;35.0.0" "system-images;android-34;google_apis;x86_64" "platform-tools" "platforms;android-34" "emulator"
 
       - name: Create and start emulator
         run: |
