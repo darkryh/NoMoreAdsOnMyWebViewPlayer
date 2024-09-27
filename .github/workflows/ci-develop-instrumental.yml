@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [27, 29]
+        api-level: [23 ,27 , 29]
         target: [default ,google_apis, playstore]
     steps:
       - name: Check Out
