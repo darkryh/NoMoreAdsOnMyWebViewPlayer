@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="illegal_argument_exception_message">WebViewClient type must be a BlockerClient</string>
+</resources>
