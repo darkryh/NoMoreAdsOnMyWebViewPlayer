@@ -4,7 +4,7 @@ permissions:
   contents: write
 
 on:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -12,7 +12,6 @@ jobs:
   build:
     name: Build and Release
     runs-on: ubuntu-latest
-    if: github.event.head_commit.message != 'Merge pull request'
 
     steps:
       - name: Checkout repository
