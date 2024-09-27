@@ -51,6 +51,11 @@ class MainActivity : ComponentActivity() {
                 modifier = modifier.fillMaxSize(),
                 factory = { context ->
                     NoMoreAdsWebView(context).apply {
+                        /**
+                         * When setting the webViewClient
+                         * the instance has to be NoMoreAdsWebView
+                         * to work in a correctly way
+                         */
                         webViewClient = object : BlockerClient() {
                             /**
                              * Exceptions key words that let known
