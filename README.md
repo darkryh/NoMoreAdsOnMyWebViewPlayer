@@ -41,8 +41,6 @@ dependencies {
 # Example of Configuration with a Custom Blocker
 This example is to make compatible with a custom site that contains this media players.
 ```kotlin
-import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
-
 class MainActivity : ComponentActivity() {
 
     fun onCreate() {
@@ -76,22 +74,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 ```
-
-# Example configuration
-```kotlin
-@Composable
-fun NoMoreAdsWebView(modifier: Modifier = Modifier) {
-    AndroidView(
-        modifier = modifier.fillMaxSize(),
-        factory = { context ->
-            NoMoreAdsWebView(context).apply {
-                loadUrl("your embed url")
-            }
-        }
-    )
-}
-```
-
 # Example of Implementation witch Jetpack Compose
 ```kotlin
 @Composable
@@ -117,4 +99,4 @@ And loading as a normal webview.
 ```
 
 # Want to collaborate
-f you want to help or collaborate, feel free to contact me on X account @Darkryh or just make a request.
+If you want to help or collaborate, feel free to contact me on X account @Darkryh or just make a request.
