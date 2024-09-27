@@ -38,7 +38,7 @@ dependencies {
     implementation("com.github.darkryh:NoMoreAdsOnMyWebViewPlayer:$version")
 } 
 ```  
-# Example of Configuration with a custom Blocker
+# Example of Configuration with a Custom Blocker
 This example is to make compatible with a custom site that contains this media players.
 ```kotlin
 import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
