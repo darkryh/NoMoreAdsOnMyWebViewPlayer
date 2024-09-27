@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.ead.lib.nomoreadsonmywebviewplayer.models.BlockerClient
 
 /**
@@ -17,7 +18,7 @@ open class BaseWebView @JvmOverloads constructor(
     /**
      * param context for the web view
      */
-    context: Context,
+    private val context: Context,
     /**
      * param attributeSet for the web view
      */
@@ -66,9 +67,25 @@ open class BaseWebView @JvmOverloads constructor(
 
             override val exceptionWordKeys: List<String>
                 get() = listOf(
-                    "your key word"
+                    /**
+                     * Your Key words
+                     */
                 )
         }
+    }
+
+
+    override fun setWebViewClient(client: WebViewClient) {
+        if (client !is BlockerClient) {
+            throw IllegalArgumentException(context.getString(R.string.illegal_argument_exception_message))
+        }
+
+        /**
+         * Override setter for make the client work just in NoMoreAdsWebView or BasicWebView
+         */
+        this.client = client
+
+        super.setWebViewClient(client)
     }
 
     /**

@@ -1,4 +1,7 @@
 [![](https://jitpack.io/v/darkryh/NoMoreAdsOnMyWebViewPlayer.svg)](https://jitpack.io/#darkryh/NoMoreAdsOnMyWebViewPlayer)
+![CI](https://github.com/darkryh/NoMoreAdsOnMyWebViewPlayer/actions/workflows/ci-develop.yml/badge.svg)
+![CI](https://github.com/darkryh/NoMoreAdsOnMyWebViewPlayer/actions/workflows/ci-develop-instrumental.yml/badge.svg)
+![CI](https://github.com/darkryh/NoMoreAdsOnMyWebViewPlayer/actions/workflows/ci-release-production.yml/badge.svg)
 # NoMoreAdsOnMyWebViewPlayer
 
 It's an Android Library that permit custom properties and remove ads from embed websites using WebView:
@@ -41,8 +44,6 @@ dependencies {
 # Example of Configuration with a Custom Blocker
 This example is to make compatible with a custom site that contains this media players.
 ```kotlin
-import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
-
 class MainActivity : ComponentActivity() {
 
     fun onCreate() {
@@ -51,6 +52,11 @@ class MainActivity : ComponentActivity() {
                 modifier = modifier.fillMaxSize(),
                 factory = { context ->
                     NoMoreAdsWebView(context).apply {
+                        /**
+                         * When setting the webViewClient
+                         * the instance has to be NoMoreAdsWebView
+                         * to work in a correctly way
+                         */
                         webViewClient = object : BlockerClient() {
                             /**
                              * Exceptions key words that let known
@@ -72,18 +78,48 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-# Example configuration
+# Replacement options for override clients
+Options available to the client the other ones still the same options.
 ```kotlin
-@Composable
-fun NoMoreAdsWebView(modifier: Modifier = Modifier) {
-    AndroidView(
-        modifier = modifier.fillMaxSize(),
-        factory = { context ->
-            NoMoreAdsWebView(context).apply {
-                loadUrl("your embed url")
-            }
-        }
-    )
+class MainActivity : ComponentActivity() {
+
+    fun onCreate() {
+        setContent {
+            AndroidView(
+                modifier = modifier.fillMaxSize(),
+                factory = { context ->
+                    NoMoreAdsWebView(context).apply {
+                        
+                        /**
+                         * Replacement option for ShouldOverrideUrlLoading(view, request)
+                         */
+                        override fun onOverrideUrlLoading(
+                            view: WebView?,
+                            request: WebResourceRequest?
+                        ): Boolean {
+                            /**
+                             * Do your logic
+                             */
+                            return super.onOverrideUrlLoading(view, request)
+                        }
+
+                        /**
+                         * Replacement option for ShouldInterceptRequest(view, request)
+                         */
+                        override fun onInterceptRequest(
+                            view: WebView?,
+                            request: WebResourceRequest?
+                        ): WebResourceResponse? {
+                            /**
+                             * Do your logic
+                             */
+                            return super.onInterceptRequest(view, request)
+                        }
+                    }
+                }
+            )
+        }    
+    }
 }
 ```
 
@@ -112,4 +148,4 @@ And loading as a normal webview.
 ```
 
 # Want to collaborate
-f you want to help or collaborate, feel free to contact me on X account @Darkryh or just make a request.
+If you want to help or collaborate, feel free to contact me on X account @Darkryh or just make a request.
