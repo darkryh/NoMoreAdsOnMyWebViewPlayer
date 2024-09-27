@@ -7,7 +7,6 @@ plugins {
 android {
     namespace = "com.ead.app.nomoreadsonmywebviewplayer"
     compileSdk = 34
-
     defaultConfig {
         applicationId = "com.ead.app.nomoreadsonmywebviewplayer"
         minSdk = 21
@@ -20,7 +19,6 @@ android {
             useSupportLibrary = true
         }
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -31,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -67,6 +65,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //implementation("com.github.darkryh:NoMoreAdsOnMyWebViewPlayer:0.0.1")
+    // implementation("com.github.darkryh:NoMoreAdsOnMyWebViewPlayer:0.0.1")
     implementation(project(":NoMoreAdsOnMyWebViewPlayer"))
 }
