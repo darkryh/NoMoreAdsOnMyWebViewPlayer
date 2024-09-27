@@ -2,6 +2,9 @@ package com.ead.app.nomoreadsonmywebviewplayer
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -69,6 +72,28 @@ fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) 
                              * Your Key words
                              */
                         )
+
+                    /**
+                     * Replacement option for ShouldOverrideUrlLoading(view, request)
+                     */
+                    override fun onOverrideUrlLoading(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): Boolean {
+                        print("What amazing replacement :)")
+                        return super.onOverrideUrlLoading(view, request)
+                    }
+
+                    /**
+                     * Replacement option for ShouldInterceptRequest(view, request)
+                     */
+                    override fun onInterceptRequest(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): WebResourceResponse? {
+                        print("What amazing replacement :)")
+                        return super.onInterceptRequest(view, request)
+                    }
                 }
             }
         }
