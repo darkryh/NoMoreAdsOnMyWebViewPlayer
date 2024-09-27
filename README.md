@@ -79,7 +79,7 @@ class MainActivity : ComponentActivity() {
 ```
 
 # Replacement options for override clients
-Options available to the client the other ones still the same.
+Options available to the client the other ones still the same options.
 ```kotlin
 class MainActivity : ComponentActivity() {
 
