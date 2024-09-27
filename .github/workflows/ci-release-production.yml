@@ -44,7 +44,7 @@ jobs:
       - name: Get version from Gradle file
         id: get_version
         run: |
-          VERSION=$(grep 'version =' build.gradle.kts | awk -F'"' '{print $2}')
+          VERSION=$(sed -n 's/^.*version *= *"\(.*\)".*$/\1/p' NoMoreAdsOnMyWebViewPlayer/build.gradle.kts)
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Debug Version
