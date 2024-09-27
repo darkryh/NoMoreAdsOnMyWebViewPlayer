@@ -21,6 +21,7 @@ import com.ead.app.nomoreadsonmywebviewplayer.presentation.theme.NoMoreAdsOnMyWe
 import com.ead.app.nomoreadsonmywebviewplayer.util.TestTags
 import com.ead.lib.nomoreadsonmywebviewplayer.NoMoreAdsWebView
 import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
+import com.ead.lib.nomoreadsonmywebviewplayer.models.BlockerClient
 
 class MainActivity : ComponentActivity() {
 
@@ -61,6 +62,14 @@ fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) 
             NoMoreAdsWebView(context).apply {
                 id = R.id.test_id_no_more_ads_web_view
                 event(MainEvent.InitializeWebView(this))
+                webViewClient = object : BlockerClient() {
+                    override val exceptionWordKeys: List<String>
+                        get() = listOf(
+                            /**
+                             * Your Key words
+                             */
+                        )
+                }
             }
         }
     )
