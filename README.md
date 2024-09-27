@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
 # Example configuration
 ```kotlin
 @Composable
-fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) {
+fun NoMoreAdsWebView(modifier: Modifier = Modifier) {
     AndroidView(
         modifier = modifier.fillMaxSize(),
         factory = { context ->
@@ -90,7 +90,7 @@ fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) 
 # Example of Implementation witch Jetpack Compose
 ```kotlin
 @Composable
-fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) {
+fun NoMoreAdsWebView(modifier: Modifier = Modifier) {
     AndroidView(
         modifier = modifier.fillMaxSize(),
         factory = { context ->
