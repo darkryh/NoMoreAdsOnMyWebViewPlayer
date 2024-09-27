@@ -38,22 +38,44 @@ dependencies {
     implementation("com.github.darkryh:NoMoreAdsOnMyWebViewPlayer:$version")
 } 
 ```  
-# Example of Configuration
+# Example of Configuration with a Custom Blocker
+This example is to make compatible with a custom site that contains this media players.
 ```kotlin
 import com.ead.lib.nomoreadsonmywebviewplayer.core.Blocker
 
-class application : Application() {
+class MainActivity : ComponentActivity() {
 
     fun onCreate() {
-        Blocker.init(this)
+        setContent {
+            AndroidView(
+                modifier = modifier.fillMaxSize(),
+                factory = { context ->
+                    NoMoreAdsWebView(context).apply {
+                        webViewClient = object : BlockerClient() {
+                            /**
+                             * Exceptions key words that let known
+                             * the blocker doesn't have to block
+                             */
+                            override val exceptionWordKeys: List<String>
+                                get() = listOf(
+                                    "meta",
+                                    "subdomain.meta",
+                                    "subdomain.related.to.site"
+                                )
+                        }
+                        loadUrl("https://www.facebook.com/")
+                    }
+                }
+            )
+        }    
     }
 }
 ```
 
-# Example of Use Case Kotlin Compose
+# Example configuration
 ```kotlin
 @Composable
-fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) {
+fun NoMoreAdsWebView(modifier: Modifier = Modifier) {
     AndroidView(
         modifier = modifier.fillMaxSize(),
         factory = { context ->
@@ -64,8 +86,23 @@ fun NoMoreAdsWebView(modifier: Modifier = Modifier, event: (MainEvent) -> Unit) 
     )
 }
 ```
-# Create reference in xml
-And loading as a normal webview
+
+# Example of Implementation witch Jetpack Compose
+```kotlin
+@Composable
+fun NoMoreAdsWebView(modifier: Modifier = Modifier) {
+    AndroidView(
+        modifier = modifier.fillMaxSize(),
+        factory = { context ->
+            NoMoreAdsWebView(context).apply {
+                loadUrl("your embed url")
+            }
+        }
+    )
+}
+```
+# Example of Implementation witch XML file
+And loading as a normal webview.
 ```xml
     <com.ead.lib.nomoreadsonmywebviewplayer.NoMoreAdsWebView
         android:id="@+id/web_view"
