@@ -128,7 +128,7 @@ open class BlockerClient(
      * if want to accept redirections
      * override this method and return true
      */
-    protected open fun onOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) : Boolean = false
+    open fun onOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) : Boolean = false
 
     /**
      * Used to validate, to replace shouldInterceptRequest
@@ -136,5 +136,5 @@ open class BlockerClient(
      * if want to accept intercepted request
      * override this method and return a WebResourceResponse or null
      */
-    protected open fun onInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = emptyResource
+    open fun onInterceptRequest(view: WebView?, request: WebResourceRequest?) : WebResourceResponse? = emptyResource
 }
