@@ -62,9 +62,9 @@ jobs:
           release_name: V${{ env.VERSION }}
           body: |
             Automatic Release using Github Actions version ${{ env.VERSION }}
-            - Improving Building
-            - Faster performance
-            - Passed tests
+            - Improving Building.
+            - Faster performance.
+            - Passed tests.
           draft: false
           prerelease: false
         env:
