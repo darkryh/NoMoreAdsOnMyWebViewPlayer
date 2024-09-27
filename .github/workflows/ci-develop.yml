@@ -1,8 +1,9 @@
-name: Develop Workflow / Build and Unit Tests
+name: Main Workflow / Build and Unit Tests
 
 on:
   push:
     branches:
+      - master
       - develop
   pull_request:
     branches:
