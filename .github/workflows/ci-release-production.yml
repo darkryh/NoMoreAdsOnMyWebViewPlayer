@@ -38,7 +38,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Get version from Gradle file
+      - name: Get Version from Gradle file
         id: get_version
         run: |
           VERSION=$(sed -n 's/^.*version *= *"\(.*\)".*$/\1/p' NoMoreAdsOnMyWebViewPlayer/build.gradle.kts)
@@ -48,14 +48,14 @@ jobs:
         run: |
           echo "Version: ${{ env.VERSION }}"
 
-      - name: Create tag and push
+      - name: Create Tag and Push
         run: |
           git fetch --all
           git checkout master
           git tag ${{ env.VERSION }}
           git push origin ${{ env.VERSION }}
 
-      - name: Create GitHub release
+      - name: Create GitHub Release
         uses: actions/create-release@v1
         with:
           tag_name: ${{ env.VERSION }}
