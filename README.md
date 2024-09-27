@@ -74,6 +74,52 @@ class MainActivity : ComponentActivity() {
     }
 }
 ```
+
+# Replacement options for override clients
+Options available to the client the other ones still the same.
+```kotlin
+class MainActivity : ComponentActivity() {
+
+    fun onCreate() {
+        setContent {
+            AndroidView(
+                modifier = modifier.fillMaxSize(),
+                factory = { context ->
+                    NoMoreAdsWebView(context).apply {
+                        
+                        /**
+                         * Replacement option for ShouldOverrideUrlLoading(view, request)
+                         */
+                        override fun onOverrideUrlLoading(
+                            view: WebView?,
+                            request: WebResourceRequest?
+                        ): Boolean {
+                            /**
+                             * Do your logic
+                             */
+                            return super.onOverrideUrlLoading(view, request)
+                        }
+
+                        /**
+                         * Replacement option for ShouldInterceptRequest(view, request)
+                         */
+                        override fun onInterceptRequest(
+                            view: WebView?,
+                            request: WebResourceRequest?
+                        ): WebResourceResponse? {
+                            /**
+                             * Do your logic
+                             */
+                            return super.onInterceptRequest(view, request)
+                        }
+                    }
+                }
+            )
+        }    
+    }
+}
+```
+
 # Example of Implementation witch Jetpack Compose
 ```kotlin
 @Composable
