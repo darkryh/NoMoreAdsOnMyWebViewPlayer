@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [25,26]
+        api-level: [23]
     steps:
       - name: Check Out
         uses: actions/checkout@v4
