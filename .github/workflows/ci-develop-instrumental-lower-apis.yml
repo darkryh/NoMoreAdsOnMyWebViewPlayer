@@ -52,7 +52,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           force-avd-creation: true
-          emulator-port: 5570
+          emulator-port: 5568
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
@@ -62,7 +62,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
-          emulator-port: 5570
+          emulator-port: 5568
           force-avd-creation: true
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
