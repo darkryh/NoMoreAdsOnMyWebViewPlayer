@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        api-level: [23 ,27 , 29]
-        target: [google_apis]
+        api-level: [27 ,28 , 29]
+        target: [default, google_apis, playstore]
     steps:
       - name: Check Out
         uses: actions/checkout@v4
@@ -51,7 +51,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          force-avd-creation: false
+          force-avd-creation: true
+          emulator-port: 5578
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
@@ -61,7 +62,7 @@ jobs:
         with:
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
-          emulator-port: 5574
+          emulator-port: 5578
           force-avd-creation: true
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
