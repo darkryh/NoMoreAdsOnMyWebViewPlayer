@@ -43,11 +43,12 @@ object PerformanceTestUtils {
         operationName: String,
         block: () -> T
     ): Pair<T, Long> {
+        var result: T
         val executionTimeNs = measureNanoTime {
-            block()
+            result = block()
         }
         val executionTimeMs = executionTimeNs / 1_000_000
-        return Pair(block(), executionTimeMs)
+        return Pair(result, executionTimeMs)
     }
 
     /**

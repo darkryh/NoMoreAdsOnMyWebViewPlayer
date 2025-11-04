@@ -39,7 +39,7 @@ This library includes comprehensive performance validation and deep testing for 
 - **URL Check Time**: < 10ms per URL
 - **Blocking Efficiency**: 100% for known ad patterns
 - **Site Coverage**: All 19 supported sites validated
-- **Test Coverage**: 60+ automated tests covering:
+- **Test Coverage**: 45+ automated tests covering:
   - Individual site validation
   - Performance metrics
   - Integration scenarios

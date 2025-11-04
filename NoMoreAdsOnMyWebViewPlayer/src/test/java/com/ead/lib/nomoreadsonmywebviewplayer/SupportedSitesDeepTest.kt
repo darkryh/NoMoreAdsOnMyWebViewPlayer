@@ -28,9 +28,14 @@ class SupportedSitesDeepTest {
         }
     }
 
+    private fun getSiteOrFail(siteName: String): SupportedSiteTestData {
+        return SupportedSites.ALL_SITES.find { it.siteName == siteName }
+            ?: throw AssertionError("Site '$siteName' not found in test data. Available sites: ${SupportedSites.ALL_SITES.map { it.siteName }}")
+    }
+
     @Test
     fun `test Uqload site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Uqload" }!!
+        val site = getSiteOrFail("Uqload")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -43,7 +48,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Mp4Upload site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Mp4Upload" }!!
+        val site = getSiteOrFail("Mp4Upload")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -56,7 +61,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test DoodStream site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "DoodStream" }!!
+        val site = getSiteOrFail("DoodStream")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -69,7 +74,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Filelions site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Filelions" }!!
+        val site = getSiteOrFail("Filelions")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -82,7 +87,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Filemoon site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Filemoon" }!!
+        val site = getSiteOrFail("Filemoon")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -95,7 +100,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test VidGuard site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "VidGuard" }!!
+        val site = getSiteOrFail("VidGuard")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -108,7 +113,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test LuluStream-Luluvdo site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "LuluStream-Luluvdo" }!!
+        val site = getSiteOrFail("LuluStream-Luluvdo")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -121,7 +126,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Streamtape site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Streamtape" }!!
+        val site = getSiteOrFail("Streamtape")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -134,7 +139,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Okru site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Okru" }!!
+        val site = getSiteOrFail("Okru")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -147,7 +152,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test StreamWish site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "StreamWish" }!!
+        val site = getSiteOrFail("StreamWish")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -160,7 +165,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Voe site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Voe" }!!
+        val site = getSiteOrFail("Voe")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -173,7 +178,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Senvid site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Senvid" }!!
+        val site = getSiteOrFail("Senvid")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -186,7 +191,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Anonfiles site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Anonfiles" }!!
+        val site = getSiteOrFail("Anonfiles")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -199,7 +204,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Bayfiles site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Bayfiles" }!!
+        val site = getSiteOrFail("Bayfiles")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -212,7 +217,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Fembed site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Fembed" }!!
+        val site = getSiteOrFail("Fembed")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -225,7 +230,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Mega site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Mega" }!!
+        val site = getSiteOrFail("Mega")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -238,7 +243,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test YourUpload site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "YourUpload" }!!
+        val site = getSiteOrFail("YourUpload")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -251,7 +256,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test Maru site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Maru" }!!
+        val site = getSiteOrFail("Maru")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -264,7 +269,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test GoodStream site URLs should be permitted`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "GoodStream" }!!
+        val site = getSiteOrFail("GoodStream")
         
         site.testUrls.forEach { url ->
             val result = Blocker.isPermitted(url)
@@ -317,7 +322,7 @@ class SupportedSitesDeepTest {
 
     @Test
     fun `test keywords coverage for all sites`() {
-        val site = SupportedSites.ALL_SITES.find { it.siteName == "Filemoon" }!!
+        val site = getSiteOrFail("Filemoon")
         
         // Test that at least one keyword matches for each test URL
         site.testUrls.forEach { url ->
